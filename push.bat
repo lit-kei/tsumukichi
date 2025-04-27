@@ -4,5 +4,5 @@ git add .
 git commit -m "update"
 git push origin master
 
-echo \nThe process has finished..
+echo The process has finished..
 pause
