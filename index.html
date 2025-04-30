@@ -10,7 +10,8 @@
     <div class="container">
         <h1>コイン数の推移</h1>
         <div class="form-container">
-            <label for="coinInput">今日のコイン数:</label>
+            <input type="date" id="dateInput" required>
+            <label for="coinInput">のコイン数:</label>
             <input type="text" onblur="kanmaChange(this);" pattern="\d*" placeholder="コイン数を入力" id="coinInput">
             <button id="saveButton">保存</button>
         </div>

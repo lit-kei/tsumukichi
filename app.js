@@ -3,21 +3,36 @@ const coinInput = document.getElementById('coinInput');
 const saveButton = document.getElementById('saveButton');
 const coinChartCanvas = document.getElementById('coinChart');
 
+let selectedDay = new Date().toLocaleDateString();
+
+window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // 月は0始まりなので+1
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    document.getElementById('dateInput').value = formattedDate;
+
+    try{
+        const newData = coinHistory[coinHistory.length-1];
+        if (newData.date == new Date().toLocaleDateString()) {
+            coinInput.value = newData.coins;
+            kanmaChange(coinInput);
+        }
+    } catch {
+        console.error('The table is undefined');
+    }
+    
+  });
+
 // localStorageからコインの履歴を読み込む
 let coinHistory = JSON.parse(localStorage.getItem('coinHistory')) || [];
 let interpolatedCoinHistory = interpolateData(coinHistory);
 
 document.getElementById('coinChart').style.height = "560px"; //htmlと同じ高さを設定
 //document.getElementById('coinChart').style.width = String(coinHistory.length * 180) + "px"; //　グラフの幅を設定　ここをコメントアウトすると、幅いっぱい使える
-try{
-    const newData = coinHistory[coinHistory.length-1];
-    if (newData.date == new Date().toLocaleDateString()) {
-        coinInput.value = newData.coins;
-        kanmaChange(coinInput);
-    }
-} catch {
-    console.error('The table is undefined');
-}
+
 
 // グラフの設定
 const chartConfig = {
@@ -138,30 +153,80 @@ function updateChart() {
 
     coinChart.data.labels = labels;
     coinChart.data.datasets[0].data = data;
+    coinChart.data.datasets[0].backgroundColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // isInterpolatedがtrueならオレンジ色
+    coinChart.data.datasets[0].borderColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // 同様に枠線の色も設定
     coinChart.update();
 }
+
+function compareDates(dateStr1, dateStr2) {
+    // 文字列を "yyyy-mm-dd" に変換してから比較する\
+    const [year1, month1, day1] = dateStr1.split('/').map(Number); // 年、月、日を取り出す
+    const [year2, month2, day2] = dateStr2.split('/').map(Number); // 年、月、日を取り出す
+
+    // 年、月、日を順番に比較する
+    if (year1 < year2) return -1;  // dateStr1 が早い
+    if (year1 > year2) return 1;   // dateStr1 が遅い
+    if (month1 < month2) return -1; // 月を比較
+    if (month1 > month2) return 1;  // 月を比較
+    if (day1 < day2) return -1;    // 日を比較
+    if (day1 > day2) return 1;     // 日を比較
+    return 0; // 日付が同じ
+}
+
+
+//二分探索
+function binarySearchInsertIndex() {
+    let low = 0;
+    let high = coinHistory.length - 1;
+    
+    while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const midDate = coinHistory[mid].date; // 配列の各要素の日付
+        const comparison = compareDates(midDate, selectedDay);
+
+        if (comparison < 0) {
+            low = mid + 1; // targetDate が midDate よりも大きい
+        } else if (comparison > 0) {
+            high = mid - 1; // targetDate が midDate よりも小さい
+        } else {
+            return mid; // 日付が一致した場合、そのインデックスを返す
+        }
+    }
+
+    return low; // 挿入位置を返す
+}
+
 
 // コイン数を保存する関数
 function saveCoinData() {
     const coinValue = parseNumber(coinInput.value);
     if (!isNaN(coinValue)) {
-        const today = new Date().toLocaleDateString();
+        if (!selectedDay.includes("NaN")) {
+            const insertIndex = binarySearchInsertIndex();
+            if (coinHistory.findIndex(entry => entry.date === selectedDay) !== -1) {
+                coinHistory[insertIndex].coins = coinValue; // 上書き
+            } else {
+                coinHistory.splice(insertIndex, 0, { date: selectedDay, coins: coinValue }); // 新しいデータを追加
+            }
         
-        // 同じ日付がすでに存在する場合、上書きする
-        const existingIndex = coinHistory.findIndex(entry => entry.date === today);
-        if (existingIndex !== -1) {
-            coinHistory[existingIndex].coins = coinValue; // 上書き
-        } else {
-            coinHistory.push({ date: today, coins: coinValue }); // 新しいデータを追加
+
+            // localStorageに保存
+            localStorage.setItem('coinHistory', JSON.stringify(coinHistory));
+    
+            // グラフを更新
+            updateChart();
         }
-
-        // localStorageに保存
-        localStorage.setItem('coinHistory', JSON.stringify(coinHistory));
-
-        // グラフを更新
-        updateChart();
     }
 }
+
+document.getElementById('dateInput').addEventListener('change', function(event) {
+    const inputDate = new Date(event.target.value);
+    selectedDay = `${inputDate.getFullYear()}/${inputDate.getMonth() + 1}/${inputDate.getDate()}`; // "yyyy/m/d"
+
+    const match = coinHistory.find(item => item.date === selectedDay);
+
+    coinInput.value = match ? match.coins : 0;
+  });
 
 // 保存ボタンのクリックイベント
 saveButton.addEventListener('click', saveCoinData);
