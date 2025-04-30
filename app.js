@@ -327,3 +327,24 @@ function parseNumber(str) {
         return Number(str.replace(/,/g, ''));
     }
   }
+
+document.getElementById('deleteButton').addEventListener('click', function() {
+    if (selectedDay.includes('NaN')) {
+        alert("日付が正しく選択されていません。");
+    } else {
+        let result = confirm("本当に削除しますか？");
+        if (result) {
+            const deleteIndex = coinHistory.findIndex(entry => entry.date === selectedDay);
+            if (deleteIndex != -1) {
+                coinHistory.splice(deleteIndex, 1);
+                localStorage.setItem('coinHistory', JSON.stringify(coinHistory));
+                
+                alert("削除に成功しました。");
+                // グラフを更新
+                updateChart();
+            } else {
+                alert("失敗：データがありませんでした。");
+            }
+        }
+    }
+});
