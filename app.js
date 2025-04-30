@@ -152,6 +152,7 @@ function interpolateData(data) {
 
 // グラフのデータを更新する関数
 function updateChart() {
+    interpolatedCoinHistory = interpolateData(coinHistory);
     if (failure) {
         failure = false;
         chartConfig = {
@@ -225,7 +226,6 @@ function updateChart() {
         };
         coinChart = new Chart(coinChartCanvas, chartConfig);
     }
-    interpolatedCoinHistory = interpolateData(coinHistory);
     const labels = interpolatedCoinHistory.map(entry => entry.date);
     const data = interpolatedCoinHistory.map(entry => entry.coins);
 
