@@ -341,6 +341,7 @@ document.getElementById('deleteButton').addEventListener('click', function() {
                 
                 alert("削除に成功しました。");
                 coinInput.value = null;
+                
                 // グラフを更新
                 updateChart();
             } else {
