@@ -1,1 +1,0 @@
-I've created a bat file which pushes to GitHub automatically.

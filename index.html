@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コイン管理</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>コイン数の推移</h1>
+        <div class="form-container">
+            <label for="coinInput">今日のコイン数:</label>
+            <input type="text" onblur="kanmaChange(this);" pattern="\d*" placeholder="コイン数を入力" id="coinInput">
+            <button id="saveButton">保存</button>
+        </div>
+        <div class="chartWrapper" style="position: relative; overflow-x: scroll;">
+            <div class="chartContainer" style="height:600px;">
+                <canvas id="coinChart" style="position: absolute; left: 0; top: 0;"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="app.js"></script>
+</body>
+</html>
