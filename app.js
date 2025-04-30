@@ -4,7 +4,16 @@ const saveButton = document.getElementById('saveButton');
 const coinChartCanvas = document.getElementById('coinChart');
 
 let selectedDay = new Date().toLocaleDateString();
+let failure = true;
 
+
+
+// localStorageからコインの履歴を読み込む
+let coinHistory = JSON.parse(localStorage.getItem('coinHistory')) || [];
+let interpolatedCoinHistory = interpolateData(coinHistory);
+
+document.getElementById('coinChart').style.height = "560px"; //htmlと同じ高さを設定
+//document.getElementById('coinChart').style.width = String(coinHistory.length * 180) + "px"; //　グラフの幅を設定　ここをコメントアウトすると、幅いっぱい使える
 window.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -20,93 +29,89 @@ window.addEventListener('DOMContentLoaded', () => {
             coinInput.value = newData.coins;
             kanmaChange(coinInput);
         }
+        chartConfig = {
+            type: 'line',
+            data: {
+                    labels: interpolatedCoinHistory.map(item => item.date),
+                    datasets: [{
+                      label: 'Coins',
+                      data: interpolatedCoinHistory.map(item => item.coins),
+                      backgroundColor: interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // isInterpolatedがtrueならオレンジ色
+                      borderColor: interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // 同様に枠線の色も設定
+                      borderWidth: 1
+                    }]
+                  },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: '日付'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'コイン数'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString(); // コイン数をカンマ区切りで表示
+                            }
+                        },
+                        min: 0,
+                        max : function() {
+                            const maxDataValue = Math.max(...coinHistory.map(entry => entry.coins));
+                            const ketasu = Math.floor(Math.log10(maxDataValue));//桁数-1
+                            return Math.floor((10**ketasu * 0.5 + maxDataValue) / (10**(ketasu-1))) * 10**(ketasu-1);
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItem) {
+                                return tooltipItem[0].label;
+                            },
+                            label: function(tooltipItem) {
+                                const dataIndex = tooltipItem.dataIndex;
+                                const datasetIndex = tooltipItem.datasetIndex;
+                                const dataset = tooltipItem.chart.data.datasets[datasetIndex];
+        
+                                if (dataIndex === 0) {
+                                    if (dataset.backgroundColor[dataIndex] === 'orange') {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値)`;
+                                    } else {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()}`;
+                                    }
+                                } else {
+                                    if (dataset.backgroundColor[dataIndex] === 'orange') {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値), 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
+                                    } else {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()}, 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        coinChart = new Chart(coinChartCanvas, chartConfig);
+        updateChart();
+        failure = false;
     } catch {
         console.error('The table is undefined');
     }
     
   });
 
-// localStorageからコインの履歴を読み込む
-let coinHistory = JSON.parse(localStorage.getItem('coinHistory')) || [];
-let interpolatedCoinHistory = interpolateData(coinHistory);
-
-document.getElementById('coinChart').style.height = "560px"; //htmlと同じ高さを設定
-//document.getElementById('coinChart').style.width = String(coinHistory.length * 180) + "px"; //　グラフの幅を設定　ここをコメントアウトすると、幅いっぱい使える
-
-
 // グラフの設定
-const chartConfig = {
-    type: 'line',
-    data: {
-            labels: interpolatedCoinHistory.map(item => item.date),
-            datasets: [{
-              label: 'Coins',
-              data: interpolatedCoinHistory.map(item => item.coins),
-              backgroundColor: interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // isInterpolatedがtrueならオレンジ色
-              borderColor: interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // 同様に枠線の色も設定
-              borderWidth: 1
-            }]
-          },
-    options: {
-        responsive: true,
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: '日付'
-                }
-            },
-            y: {
-                title: {
-                    display: true,
-                    text: 'コイン数'
-                },
-                ticks: {
-                    callback: function(value) {
-                        return value.toLocaleString(); // コイン数をカンマ区切りで表示
-                    }
-                },
-                min: 0,
-                max : function() {
-                    const maxDataValue = Math.max(...coinHistory.map(entry => entry.coins));
-                    const ketasu = Math.floor(Math.log10(maxDataValue));//桁数-1
-                    return Math.floor((10**ketasu * 0.5 + maxDataValue) / (10**(ketasu-1))) * 10**(ketasu-1);
-                }
-            }
-        },
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    title: function(tooltipItem) {
-                        return tooltipItem[0].label;
-                    },
-                    label: function(tooltipItem) {
-                        const dataIndex = tooltipItem.dataIndex;
-                        const datasetIndex = tooltipItem.datasetIndex;
-                        const dataset = tooltipItem.chart.data.datasets[datasetIndex];
-
-                        if (dataIndex === 0) {
-                            if (dataset.backgroundColor[dataIndex] === 'orange') {
-                                return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値)`;
-                            } else {
-                                return `コイン数: ${dataset.data[dataIndex].toLocaleString()}`;
-                            }
-                        } else {
-                            if (dataset.backgroundColor[dataIndex] === 'orange') {
-                                return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値), 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
-                            } else {
-                                return `コイン数: ${dataset.data[dataIndex].toLocaleString()}, 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-};
+let chartConfig;
 
 // Chart.jsグラフのインスタンス
-const coinChart = new Chart(coinChartCanvas, chartConfig);
+let coinChart;
 
 
 // 2点間の補間を計算する関数
@@ -147,6 +152,79 @@ function interpolateData(data) {
 
 // グラフのデータを更新する関数
 function updateChart() {
+    if (failure) {
+        failure = false;
+        chartConfig = {
+            type: 'line',
+            data: {
+                    labels: interpolatedCoinHistory.map(item => item.date),
+                    datasets: [{
+                      label: 'Coins',
+                      data: interpolatedCoinHistory.map(item => item.coins),
+                      backgroundColor: interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // isInterpolatedがtrueならオレンジ色
+                      borderColor: interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // 同様に枠線の色も設定
+                      borderWidth: 1
+                    }]
+                  },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: '日付'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'コイン数'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString(); // コイン数をカンマ区切りで表示
+                            }
+                        },
+                        min: 0,
+                        max : function() {
+                            const maxDataValue = Math.max(...coinHistory.map(entry => entry.coins));
+                            const ketasu = Math.floor(Math.log10(maxDataValue));//桁数-1
+                            return Math.floor((10**ketasu * 0.5 + maxDataValue) / (10**(ketasu-1))) * 10**(ketasu-1);
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItem) {
+                                return tooltipItem[0].label;
+                            },
+                            label: function(tooltipItem) {
+                                const dataIndex = tooltipItem.dataIndex;
+                                const datasetIndex = tooltipItem.datasetIndex;
+                                const dataset = tooltipItem.chart.data.datasets[datasetIndex];
+        
+                                if (dataIndex === 0) {
+                                    if (dataset.backgroundColor[dataIndex] === 'orange') {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値)`;
+                                    } else {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()}`;
+                                    }
+                                } else {
+                                    if (dataset.backgroundColor[dataIndex] === 'orange') {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値), 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
+                                    } else {
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()}, 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        coinChart = new Chart(coinChartCanvas, chartConfig);
+    }
     interpolatedCoinHistory = interpolateData(coinHistory);
     const labels = interpolatedCoinHistory.map(entry => entry.date);
     const data = interpolatedCoinHistory.map(entry => entry.coins);
@@ -230,9 +308,6 @@ document.getElementById('dateInput').addEventListener('change', function(event) 
 
 // 保存ボタンのクリックイベント
 saveButton.addEventListener('click', saveCoinData);
-
-// 初回ロード時にグラフを表示
-updateChart();
 
 function kanmaChange(inputAns){
     let inputAnsValue = inputAns.value;
