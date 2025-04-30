@@ -303,7 +303,7 @@ document.getElementById('dateInput').addEventListener('change', function(event) 
 
     const match = coinHistory.find(item => item.date === selectedDay);
 
-    coinInput.value = match ? match.coins : 0;
+    coinInput.value = match ? match.coins : null;
   });
 
 // 保存ボタンのクリックイベント
@@ -332,7 +332,7 @@ document.getElementById('deleteButton').addEventListener('click', function() {
     if (selectedDay.includes('NaN')) {
         alert("日付が正しく選択されていません。");
     } else {
-        let result = confirm("本当に削除しますか？");
+        let result = confirm(selectedDay + "のデータを削除しますか？");
         if (result) {
             const deleteIndex = coinHistory.findIndex(entry => entry.date === selectedDay);
             if (deleteIndex != -1) {
@@ -340,6 +340,7 @@ document.getElementById('deleteButton').addEventListener('click', function() {
                 localStorage.setItem('coinHistory', JSON.stringify(coinHistory));
                 
                 alert("削除に成功しました。");
+                coinInput.value = null;
                 // グラフを更新
                 updateChart();
             } else {
