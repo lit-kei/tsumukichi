@@ -13,7 +13,10 @@
             <input type="date" id="dateInput" required>
             <label for="coinInput">のコイン数:</label>
             <input type="text" onblur="kanmaChange(this);" pattern="\d*" placeholder="コイン数を入力" id="coinInput">
-            <button id="saveButton">保存</button>
+            <div class="buttons">
+                <button id="saveButton">保存</button>
+                <button id="deleteButton">削除</button>
+            </div>
         </div>
         <div class="chartWrapper" style="position: relative; overflow-x: scroll;">
             <div class="chartContainer" style="height:600px;">

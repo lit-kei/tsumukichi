@@ -33,18 +33,25 @@ h1 {
 .form-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+    height: 90px;
+}
+
+input {
+    height: 100%;
+    font-size: 30px;
+
 }
 
 #coinInput {
     padding: 15px;
     width: 50%;
-    font-size: 1.5em;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
 
-button {
+button#saveButton {
     padding: 15px;
     background-color: #007BFF;
     color: white;
@@ -55,10 +62,31 @@ button {
     width: 110px;
 }
 
-button:hover {
+button#saveButton:hover {
     background-color: #0056b3;
 }
 
+button#deleteButton {
+    color: red;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; 
+}
+
+button#deleteButton:hover {
+    background-color: black;
+}
+  button#deleteButton:hover {
+    background-color: black;           /* ホバー時に黒く */
+    color: yellow;                      /* ホバー時のテキスト色（任意） */
+  }
+
+div.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
 canvas {
     width: 100%;
