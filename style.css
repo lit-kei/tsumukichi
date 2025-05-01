@@ -123,7 +123,7 @@ label {
     }
 
     .buttons {
-        flex-direction: row;
+        flex-direction: row;  /* 横並びにする */
         justify-content: space-between;
         gap: 10px;
     }
@@ -141,5 +141,17 @@ label {
 
     canvas {
         height: 300px;
+    }
+}
+
+/* スマホなど hover が使えないデバイス向けに hover スタイルを無効化 */
+@media (hover: none) {
+    button#saveButton:hover {
+        background-color: #007BFF;
+    }
+
+    button#deleteButton:hover {
+        background-color: transparent;
+        color: red;
     }
 }
