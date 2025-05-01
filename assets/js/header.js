@@ -22,7 +22,7 @@ function loadCSS(filename) {
     <a href="index.html">
       <img src="assets/logo/logo.png" height="70px" class="logo-img" alt="つむ基地！のロゴ">
     </a>
-    <h1 class="header-title">${title}</h1>
+    <h1 class="header-title"">${title}</h1>
   </div>
 `;
     inner.classList.add('header-inner');

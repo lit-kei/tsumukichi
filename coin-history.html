@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="コイン管理システム">
+    <title>コイン管理</title>
+    <link rel="stylesheet" href="assets/css/coin-history.css">
+</head>
+<body>
+    <script src="assets/js/header.js"></script>
+    <header class="full-header"></header>
+    <div class="container">
+        <h1>コイン数の推移</h1>
+        <div class="form-container">
+            <input type="date" id="dateInput" required>
+            <label for="coinInput">のコイン数:</label>
+            <input type="text" onblur="kanmaChange(this);" pattern="\d*" placeholder="コイン数を入力" id="coinInput">
+            <div class="buttons">
+                <button id="saveButton">保存</button>
+                <button id="deleteButton">削除</button>
+            </div>
+        </div>
+        <div class="chartWrapper" style="position: relative; overflow-x: scroll;">
+            <div class="chartContainer" style="height:600px;">
+                <canvas id="coinChart" style="position: absolute; left: 0; top: 0;"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="assets/js/coin-history.js"></script>
+</body>
+</html>

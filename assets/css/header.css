@@ -1,9 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -23,9 +17,9 @@ body {
 
 .header-inner {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -36,15 +30,16 @@ body {
 
 .logo-img {
     margin-right: 15px;
-    height: 70px;
 }
 
 .header-title {
-    font-size: 1.5em;
+    font-size: 38px;
     margin: 0;
+    pointer-events: none;
 }
 
 .header-nav {
+    margin-left: 2em;
     display: flex;
     align-items: center;
 }

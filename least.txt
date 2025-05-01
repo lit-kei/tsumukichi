@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="トップページ">
+    <title>つむ基地！｜トップページ</title>
+    <link rel="stylesheet" href="assets/css/top.css">
+</head>
+<body>
+    <script src="assets/js/header.js"></script>
+    <header class="full-header"></header>
+
+    <!--Write here.-->
+    
+    <script src="assets/js/top.js"></script>
+</body>
+</html>

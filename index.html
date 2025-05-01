@@ -3,32 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="title" content="コイン管理システム">
-    <title>コイン管理</title>
-    <link rel="stylesheet" href="assets/css/coin-history.css">
+    <meta name="title" content="トップページ">
+    <title>つむ基地！｜トップページ</title>
+    <link rel="stylesheet" href="assets/css/top.css">
 </head>
 <body>
     <script src="assets/js/header.js"></script>
     <header class="full-header"></header>
     <div class="container">
-        <h1>コイン数の推移</h1>
-        <div class="form-container">
-            <input type="date" id="dateInput" required>
-            <label for="coinInput">のコイン数:</label>
-            <input type="text" onblur="kanmaChange(this);" pattern="\d*" placeholder="コイン数を入力" id="coinInput">
-            <div class="buttons">
-                <button id="saveButton">保存</button>
-                <button id="deleteButton">削除</button>
+        <h1 class="title">つむ基地！概要</h1>
+        <div class="two-column">
+            <div class="left">
+                <h2>このサイトの<b>目的</b></h2>
+                <p>このサイトは、ツムツムが好きなみなさんのニーズを満たすために公開しています。</p>
+                <p>コイン集めのモチベーションを保てない方、一人で遊ぶのはつまらないという方々は、<br>このサイトを通じて他のツムツム好きと交流していただけたらいいなと思っています。</p>
             </div>
-        </div>
-        <div class="chartWrapper" style="position: relative; overflow-x: scroll;">
-            <div class="chartContainer" style="height:600px;">
-                <canvas id="coinChart" style="position: absolute; left: 0; top: 0;"></canvas>
+            <div class="right">
+
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script src="assets/js/coin-history.js"></script>
+    <script src="assets/js/top.js"></script>
 </body>
 </html>
