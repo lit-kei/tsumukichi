@@ -7,10 +7,6 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -20,10 +16,11 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 1200px;  /* 最大幅を1200pxに設定 */
-    margin-top: 20px;
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto; /* 中央寄せ */
 }
+
 
 h1 {
     text-align: center;
@@ -153,5 +150,76 @@ label {
     button#deleteButton:hover {
         background-color: transparent;
         color: red;
+    }
+}
+
+.full-header {
+    width: 100%;
+    background-color: #3498DB;
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    top: 0;
+    z-index: 1000;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    margin-right: 15px;
+    height: 70px;
+}
+
+.header-title {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+}
+
+.header-nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.header-nav a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .header-left {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .header-nav {
+        flex-wrap: wrap;
+    }
+
+    .header-nav a {
+        margin: 5px 15px 0 0;
     }
 }

@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="コイン管理システム">
     <title>コイン管理</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/coin-history.css">
 </head>
 <body>
+    <header class="full-header">
+        <div class="header-inner">
+            <div class="header-left">
+                <img src="assets/logo/logo.png" height="70px" class="logo-img">
+                <h1 class="header-title">コイン管理システム</h1>
+            </div>
+            <nav class="header-nav">
+                <a href="..">ホーム</a>
+                <a href="/history.html">履歴</a>
+                <a href="/settings.html">設定</a>
+            </nav>
+        </div>
+    </header>
     <div class="container">
         <h1>コイン数の推移</h1>
         <div class="form-container">
@@ -26,6 +40,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <script src="app.js"></script>
+    <script src="assets/js/coin-history.js"></script>
 </body>
 </html>
