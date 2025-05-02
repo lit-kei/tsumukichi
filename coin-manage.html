@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="title" content="コイン管理システム">
-    <title>コイン管理</title>
+    <title>コイン管理システム</title>
     <link rel="stylesheet" href="assets/css/coin-manage.css">
 </head>
 <body>
@@ -21,11 +21,17 @@
                 <button id="deleteButton">削除</button>
             </div>
         </div>
-        <div class="chartWrapper" style="position: relative; overflow-x: scroll;">
-            <div class="chartContainer" style="height:600px;">
+        <div class="chartWrapper" style="position: relative;">
+            <div class="chartContainer" style="height: 550px;">
                 <canvas id="coinChart" style="position: absolute; left: 0; top: 0;"></canvas>
             </div>
         </div>
+    </div>
+    <div class="container">
+        <h2>説明</h2>
+        <p>カレンダーから日付を選択して、コイン数を入力、保存ボタンを押すと、データが記録されます。</p>
+        <p>もし、すでにデータがある場合は自動で上書きされます。また、間違えて保存してしまった場合は、削除ボタンからデータを削除することが出来ます。</p>
+        <p>なお、グラフ上のオレンジの点は、データが入力されなかった日に、前後のコイン数から自動で補間していることを示します。</p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     

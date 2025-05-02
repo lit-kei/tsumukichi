@@ -81,13 +81,13 @@ window.addEventListener('DOMContentLoaded', () => {
         
                                 if (dataIndex === 0) {
                                     if (dataset.backgroundColor[dataIndex] === 'orange') {
-                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値)`;
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補間値)`;
                                     } else {
                                         return `コイン数: ${dataset.data[dataIndex].toLocaleString()}`;
                                     }
                                 } else {
                                     if (dataset.backgroundColor[dataIndex] === 'orange') {
-                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補完値), 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
+                                        return `コイン数: ${dataset.data[dataIndex].toLocaleString()} (補間値), 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
                                     } else {
                                         return `コイン数: ${dataset.data[dataIndex].toLocaleString()}, 前日比: ${dataset.data[dataIndex] - dataset.data[dataIndex - 1]}`;
                                     }
