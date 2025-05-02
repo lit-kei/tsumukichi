@@ -15,7 +15,7 @@
         <div class="two-column">
             <div class="left">
                 <h2>このサイトの<b>目的</b></h2>
-                <p>私はコイン管理システムを公開するために、このサイトを作りました。2024年のクリスマスに、<br>新アイテム「メダル」が実装され、コイン集めのモチベーションが落ちた方も多いと思います。</p>
+                <p>私はコイン管理システムを公開するために、このサイトを作りました。2024年のクリスマスに、<br>新アイテム「メダル」が実装され、コイン集めのモチベーションが落ちた方も多いといいます。</p>
                 <p>他のツムツム好きとの交流が深まり、ツムツム界隈の活発化に貢献できたらなと、<br>心から願っています。</p>
                 <p style="font-size: 22px;" id="advise"><b>※このサイトはパソコン推奨です。</b></p>
             </div>
@@ -34,8 +34,12 @@
     <div class="two-column main">
         <div class="left-containers">
             
-            <div class="main-container" data-href="coin-history.html">
+            <div class="main-container" data-href="coin-manage.html">
                 <h1 class="title">コイン管理システム</h1>
+                <div class="main-text">
+                    <p>このページでは、日々のコインの移り変わりを記録できます。</p>
+                </div>
+                <img src="assets/images/coin-manage.png" alt="コインのグラフの画像" class="main-image">
             </div>
             
         </div>
@@ -45,6 +49,17 @@
             </div>
         </div>
     </div>
-    <script src="assets/js/top.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.main-container').forEach(function (element) {
+                element.addEventListener('click', function () {
+                    const url = element.getAttribute('data-href');
+                    if (url) {
+                    window.location.href = url;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

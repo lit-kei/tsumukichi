@@ -1,4 +1,4 @@
-const links = [{href: "index.html", title: "トップ"},{href: "coin-history.html", title: "コイン管理システム"}];
+const links = [{href: "index.html", title: "トップ"},{href: "coin-manage.html", title: "コイン管理システム"}];
 
 // CSSファイルを読み込む関数
 function loadCSS(filename) {
@@ -20,7 +20,7 @@ function loadCSS(filename) {
     const left = `
   <div class="header-left">
     <a href="index.html">
-      <img src="assets/logo/logo.png" height="70px" class="logo-img" alt="つむ基地！のロゴ">
+      <img src="assets/images/logo.png" height="70px" class="logo-img" alt="つむ基地！のロゴ">
     </a>
     <h1 class="header-title"">${title}</h1>
   </div>
