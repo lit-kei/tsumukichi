@@ -1,4 +1,4 @@
-const links = [{href: "index.html", title: "トップ"},{href: "coin-manage.html", title: "コイン管理システム"}];
+const links = [{href: "index.html", title: "トップ"},{href: "coin-manage.html", title: "コイン管理システム"},{href: "community.html", title: "コミュニティ"}];
 
   window.onload = function() {
     const title = document.querySelector('meta[name="title"]').getAttribute('content');

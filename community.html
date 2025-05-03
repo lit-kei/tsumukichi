@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="title" content="コミュニティ">
+  <title>コミュニティ</title>
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/community.css">
+</head>
+<body>
+  <script src="assets/js/header.js"></script>
+  <header class="full-header"></header>
+
+  <main class="chat-room">
+    <div class="chat-header">
+      <h2>みんなのチャット</h2>
+    </div>
+
+    <div class="chat-content" id="chatContent">
+      <!-- メッセージがここに表示されます -->
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="messageInput" placeholder="メッセージを入力..." />
+      <button id="sendMessage">送信</button>
+    </div>
+  </main>
+  <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <p>メッセージを送信するにはログインが必要です。</p>
+        <button onclick="location.href='index.html'" class="modal-button">ログインページへ</button>
+        <button onclick="document.getElementById('loginModal').style.display='none'" class="modal-button">閉じる</button>
+      </div>
+    </div>
+
+  <script type="module" src="assets/js/community.js"></script>
+</body>
+</html>

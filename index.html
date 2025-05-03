@@ -11,6 +11,11 @@
 <body>
     <script src="assets/js/header.js"></script>
     <header class="full-header"></header>
+    <Button id="logout">Logout</Button>
+    <div class="container login" id="login">
+        <h1 class="title">Googleでログイン</h1>
+        <p>コインのデータを保存したり、コミュニティで発言できるようになったりします。</p>
+    </div>
     <div class="container">
         <h1 class="title">トップページ</h1>
         <div class="two-column">
@@ -46,11 +51,17 @@
             
         </div>
         <div class="right-containers">
-            <div class="main-container">
-                <h1 class="title">スレッド</h1>
+            <div class="main-container" data-href="community.html">
+                <h1 class="title">コミュニティ</h1>
+                <div class="main-text">
+                    <p>Comming soon.</p>
+                </div>
             </div>
         </div>
     </div>
+      
+    <script type="module" src="assets/js/login.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.main-container').forEach(function (element) {
