@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ログイン必須ページ</title>
+</head>
+<body>
+  <h1>ようこそ</h1>
+  <p id="user-info">ログイン確認中...</p>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCGLPun0uYBMgCR1eH3lzXcEN4Q1REMyL0",
+        authDomain: "tsumukichi-fd6bb.firebaseapp.com",
+        projectId: "tsumukichi-fd6bb",
+        storageBucket: "tsumukichi-fd6bb.firebasestorage.app",
+        messagingSenderId: "862189689025",
+        appId: "1:862189689025:web:e9af0ef41ae45a13eb5c40",
+        measurementId: "G-0XE4K5F37J"
+    };
+    // Firebase初期化
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    // 認証状態の監視
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // ✅ ログイン済みの場合
+        document.getElementById("user-info").textContent = `ログイン中：${user.displayName}`;
+        console.log(user);
+      } else {
+        // ❗ 未ログイン → 自動的にポップアップログイン
+        auth.signInWithPopup(provider)
+          .then(result => {
+            const user = result.user;
+            document.getElementById("user-info").textContent = `ログイン成功：${user.displayName}`;
+          })
+          .catch(error => {
+            console.error("ログイン失敗:", error);
+            alert("ログインできませんでした。");
+          });
+      }
+    });
+  </script>
+</body>
+</html>

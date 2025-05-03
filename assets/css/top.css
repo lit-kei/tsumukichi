@@ -74,6 +74,18 @@ ul {
     margin-left: 10px;
 }
 
+.login {
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+.login * {
+    margin-right: 15px;
+}
+.login:hover {
+    transform: translateY(-10px);
+}
+
 .main-container {
     background-color: #fff;
     padding: 20px;

@@ -1,18 +1,5 @@
 const links = [{href: "index.html", title: "トップ"},{href: "coin-manage.html", title: "コイン管理システム"}];
 
-// CSSファイルを読み込む関数
-function loadCSS(filename) {
-    var link = document.createElement('link'); // <link> 要素を作成
-    link.rel = 'stylesheet';  // rel 属性を指定
-    link.type = 'text/css';   // type 属性を指定
-    link.href = filename;     // href 属性でCSSファイルのパスを指定
-
-    // <head> 内に <link> タグを追加
-    document.head.appendChild(link);
-  }
-
-  loadCSS('assets/css/header.css');
-  // ページ読み込み後にCSSファイルを動的に読み込む
   window.onload = function() {
     const title = document.querySelector('meta[name="title"]').getAttribute('content');
     const header = document.getElementsByTagName('header')[0];

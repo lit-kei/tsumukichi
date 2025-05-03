@@ -6,6 +6,7 @@
     <meta name="title" content="コイン管理システム">
     <title>コイン管理システム</title>
     <link rel="stylesheet" href="assets/css/coin-manage.css">
+    <link rel="stylesheet" href="assets/css/header.css">
 </head>
 <body>
     <script src="assets/js/header.js"></script>
@@ -30,11 +31,13 @@
     <div class="container">
         <h2>説明</h2>
         <p>カレンダーから日付を選択して、コイン数を入力、保存ボタンを押すと、データが記録されます。</p>
-        <p>もし、すでにデータがある場合は自動で上書きされます。また、間違えて保存してしまった場合は、削除ボタンからデータを削除することが出来ます。</p>
-        <p>なお、グラフ上のオレンジの点は、データが入力されなかった日に、前後のコイン数から自動で補間していることを示します。</p>
+        <p>もし、すでにデータがある場合は自動で上書きされます。また、間違えて保存してしまった場合は、削除ボタンからデータを削除することが出来ます。なお、グラフ上のオレンジの点は、データが入力されなかった日に、前後のコイン数から自動で補間していることを示します。</p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="assets/js/firebase-config.js"></script>
     <script src="assets/js/coin-manage.js"></script>
 </body>
 </html>
