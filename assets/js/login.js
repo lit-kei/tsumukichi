@@ -80,14 +80,3 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// サインアウトボタンがクリックされたときにサインアウトする
-document.getElementById("logout").addEventListener("click", () => {
-  auth.signOut().then(() => {
-    console.log("ユーザーがサインアウトしました");
-    // ログインページの表示や、ログインボタンの再表示などを行う
-    const loginDiv = document.getElementById("login");
-    loginDiv.style.display = "flex"; // ログインボタンを再表示
-  }).catch((error) => {
-    console.error("サインアウトに失敗しました: ", error);
-  });
-});
