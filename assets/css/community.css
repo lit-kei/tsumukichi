@@ -47,12 +47,15 @@
   
   #messageInput {
     flex: 1;
+    width: 100%;
+    font-size: 16px;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1em;
+    resize: none; /* サイズ変更を防ぐ */
+    overflow-y: auto; /* 内容が多い場合に縦スクロール */
+    box-sizing: border-box;
+    min-height: 40px; /* 初期表示の最小高さ */
+    max-height: 200px; /* 最大高さ */
   }
-  
   #sendMessage {
     margin-left: 10px;
     padding: 10px 20px;

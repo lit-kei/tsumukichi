@@ -1,11 +1,11 @@
 // Firebase SDKのインポート
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 
 import {
   getFirestore,
-  collection,
-  addDoc,
-  onSnapshot,
+  //collection,
+  //addDoc,
+  //onSnapshot,
   setDoc,
   getDoc,
   doc
@@ -28,7 +28,7 @@ const firebaseConfig = {
 };
 
 // Firebase初期化
-const app = initializeApp(firebaseConfig);
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 const auth = getAuth(app);
 

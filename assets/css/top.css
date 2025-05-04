@@ -100,16 +100,15 @@ ul {
 .main-container:hover {
     transform: translateY(-10px);
 }
-
 .main-image {
     max-width: 100%;
     opacity: 0.7;
+    display: block;
+    margin: 20px auto 0 auto;
+    transition: opacity 0.3s;
 }
 .main-text {
     margin-top: 10px;
-}
-.main-image {
-    transition: opacity 0.3s;
 }
 .main-container:hover .main-image {
     opacity: 1;

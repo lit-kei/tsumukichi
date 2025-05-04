@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="assets/css/community.css">
 </head>
 <body>
-  <script src="assets/js/header.js"></script>
+  <script type="module" src="assets/js/header.js"></script>
   <header class="full-header"></header>
 
   <main class="chat-room">
@@ -22,7 +22,8 @@
     </div>
 
     <div class="chat-input-area">
-      <input type="text" id="messageInput" autocomplete="off" placeholder="メッセージを入力..." />
+      <textarea id="messageInput" placeholder="メッセージを入力..." rows="1"></textarea>
+
       <button id="sendMessage">送信</button>
     </div>
   </main>
@@ -35,5 +36,13 @@
     </div>
 
   <script type="module" src="assets/js/community.js"></script>
+  <script>
+    const messageInput = document.getElementById("messageInput");
+
+    messageInput.addEventListener("input", () => {
+      messageInput.style.height = "auto"; // 高さリセット
+      messageInput.style.height = messageInput.scrollHeight + "px"; // 内容に応じた高さを設定
+    });
+  </script>
 </body>
 </html>

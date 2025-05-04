@@ -1,5 +1,5 @@
 // Firebase SDKのインポート
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import {
   getFirestore,
   collection,
@@ -26,8 +26,7 @@ const firebaseConfig = {
   measurementId: "G-0XE4K5F37J"
 };
 
-// Firebase初期化
-const app = initializeApp(firebaseConfig);
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 const auth = getAuth(app);
 
@@ -37,6 +36,14 @@ let currentUser = null;
 onAuthStateChanged(auth, user => {
   currentUser = user;
 });
+// 表示用にテキストをHTMLへ変換（改行対応）
+function escapeAndFormat(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\n/g, "<br>");
+}
 
 // チャットの読み取り（誰でも可能）
 const chatQuery = query(collection(db, "chat"), orderBy("timestamp"));
@@ -63,9 +70,9 @@ onSnapshot(chatQuery, snapshot => {
     }
 
     msgEl.innerHTML = `
-      <div><strong>${name}</strong> (${uid}) ${time}</div>
-      <div>${data.message}</div>
-    `;
+  <div><strong>${name}</strong> (${uid}) ${time}</div>
+  <div>${escapeAndFormat(data.message)}</div>
+`;
 
     // スクロール追従（新規追加時のみ）
     if (change.type === "added") {
@@ -78,6 +85,7 @@ onSnapshot(chatQuery, snapshot => {
 document.getElementById("sendMessage").addEventListener("click", () => {
   const input = document.getElementById("messageInput");
   const text = input.value.trim();
+  
   if (!text) return;
 
   if (!currentUser) {

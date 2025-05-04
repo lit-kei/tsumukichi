@@ -73,12 +73,10 @@ onAuthStateChanged(auth, (user) => {
     // ログイン済み
     console.log("ユーザーがログインしています");
     loginDiv.style.display = "none"; // ログインしたらボタンを非表示
-    logoutButton.style.display = "block"; // ログアウトボタンを表示
   } else {
     // 未ログイン
     console.log("ユーザーがログインしていません");
     loginDiv.style.display = "flex"; // 未ログインならボタンを表示
-    logoutButton.style.display = "none"; // ログアウトボタンを非表示
   }
 });
 

@@ -6,18 +6,18 @@ body {
 }
 
 .full-header {
-    max-width: 100%;
+    width: 100%;
     background-color: #3498DB;
     color: white;
     padding: 15px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     top: 0;
     z-index: 1000;
+    position: sticky;
 }
 
 .header-inner {
     max-width: 1200px;
-    margin: 0;
     margin-left: 15px;
     display: flex;
     justify-content: flex-start;
@@ -56,6 +56,58 @@ body {
 
 .header-nav a:hover {
     text-decoration: underline;
+}
+
+/* 🔸 画面右上に固定 */
+.header-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1100;
+}
+
+/* 🔸 ユーザーアイコン */
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* 🔸 ログインボタン */
+.login-button {
+    padding: 8px 16px;
+    background: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 🔸 ドロップダウン */
+.dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    color: black;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 100;
+}
+
+.dropdown button {
+    padding: 10px 20px;
+    width: 110px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: center;
+    color: red;
+}
+
+.dropdown button:hover {
+    background-color: #f0f0f0;
 }
 
 @media (max-width: 768px) {
