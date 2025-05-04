@@ -41,27 +41,25 @@ onAuthStateChanged(auth, user => {
 // チャットの読み取り（誰でも可能）
 const chatQuery = query(collection(db, "chat"), orderBy("timestamp"));
 onSnapshot(chatQuery, snapshot => {
-  const chatContent = document.getElementById("chatContent");
-  chatContent.innerHTML = "";
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    const msgEl = document.createElement("div");
-    msgEl.className = "chat-message";
+  snapshot.docChanges().forEach(change => {
+    if (change.type === "added") {
+      const data = change.doc.data();
+      const msgEl = document.createElement("div");
+      msgEl.className = "chat-message";
 
-    const time = data.timestamp?.toDate?.().toLocaleString() || "時刻不明";
-    const uid = data.uid || "不明";
+      const time = data.timestamp?.toDate?.().toLocaleString() || "時刻不明";
+      const uid = data.uid || "不明";
 
-    msgEl.innerHTML = `
-      <div><strong>${data.name || "名無し"}</strong> (${uid})</div>
-      <div>${data.message}</div>
-      <div class="chat-meta">${time}</div>
-    `;
+      msgEl.innerHTML = `
+        <div><strong>${data.name || "名無し"}</strong> (${uid}) ${time}</div>
+        <div>${data.message}</div>
+      `;
 
-    chatContent.appendChild(msgEl);
-    chatContent.scrollTop = chatContent.scrollHeight;
+      chatContent.appendChild(msgEl);
+      chatContent.scrollTop = chatContent.scrollHeight;
+    }
   });
 });
-
 // メッセージ送信処理
 document.getElementById("sendMessage").addEventListener("click", () => {
   const input = document.getElementById("messageInput");

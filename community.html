@@ -22,14 +22,14 @@
     </div>
 
     <div class="chat-input-area">
-      <input type="text" id="messageInput" placeholder="メッセージを入力..." />
+      <input type="text" id="messageInput" autocomplete="off" placeholder="メッセージを入力..." />
       <button id="sendMessage">送信</button>
     </div>
   </main>
   <div id="loginModal" class="modal">
       <div class="modal-content">
-        <p>メッセージを送信するにはログインが必要です。</p>
-        <button onclick="location.href='index.html'" class="modal-button">ログインページへ</button>
+        <p>メッセージを送信するにはログインが必要です。トップページからGoogleでログインしてください。</p>
+        <button onclick="location.href='index.html'" class="modal-button">トップページへ</button>
         <button onclick="document.getElementById('loginModal').style.display='none'" class="modal-button">閉じる</button>
       </div>
     </div>

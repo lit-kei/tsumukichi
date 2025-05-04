@@ -13,12 +13,16 @@
   .chat-header {
     background-color: #3498db;
     color: white;
-    padding: 15px;
     font-size: 1.2em;
+    padding: 15px;
     font-weight: bold;
     text-align: center;
   }
   
+  .chat-header h2 {
+    margin: 5px 0px;
+  }
+
   .chat-content {
     flex: 1;
     padding: 15px;
