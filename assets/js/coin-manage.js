@@ -1,3 +1,68 @@
+// Firebase SDKのインポート
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  setDoc,
+  getDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+// Firebase設定
+const firebaseConfig = {
+  apiKey: "AIzaSyCGLPun0uYBMgCR1eH3lzXcEN4Q1REMyL0",
+  authDomain: "tsumukichi-fd6bb.firebaseapp.com",
+  projectId: "tsumukichi-fd6bb",
+  storageBucket: "tsumukichi-fd6bb.appspot.com",
+  messagingSenderId: "862189689025",
+  appId: "1:862189689025:web:e9af0ef41ae45a13eb5c40",
+  measurementId: "G-0XE4K5F37J"
+};
+
+// Firebase初期化
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let currentUser = null;
+
+let coinHistory = [];
+// 認証状態を監視
+onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    if (user) {
+        try {
+            const docSnap = await getDoc(doc(db, "users", user.uid));
+            if (docSnap.exists()) {
+                coinHistory = docSnap.data().coinHistory;
+                console.log("data:", coinHistory);
+                updateChart(); // データ取得後にグラフを更新
+            } else {
+                coinHistory = [];
+                updateChart(); // 空のデータでもグラフ更新
+            }
+        } catch (error) {
+            console.error("データ取得エラー:", error);
+            coinHistory = [];
+            updateChart(); // エラー時もグラフを更新
+        }
+    } else {
+        coinHistory = [];
+        updateChart(); // ユーザーがいない場合もグラフ更新
+    }
+});
+
+
+
+
 // DOM要素の取得
 const coinInput = document.getElementById('coinInput');
 const saveButton = document.getElementById('saveButton');
@@ -8,8 +73,6 @@ let failure = true;
 
 
 
-// localStorageからコインの履歴を読み込む
-let coinHistory = JSON.parse(localStorage.getItem('coinHistory')) || [];
 let interpolatedCoinHistory = interpolateData(coinHistory);
 
 document.getElementById('coinChart').style.height = "560px"; //htmlと同じ高さを設定
@@ -102,7 +165,7 @@ window.addEventListener('DOMContentLoaded', () => {
         updateChart();
         failure = false;
     } catch {
-        console.error('The table is undefined');
+        console.error('error');
     }
     
   });
@@ -276,26 +339,31 @@ function binarySearchInsertIndex() {
 
 
 // コイン数を保存する関数
-function saveCoinData() {
+async function saveCoinData() {
     const coinValue = parseNumber(coinInput.value);
     if (!isNaN(coinValue)) {
-        if (!selectedDay.includes("NaN")) {
-            const insertIndex = binarySearchInsertIndex();
-            if (coinHistory.findIndex(entry => entry.date === selectedDay) !== -1) {
-                coinHistory[insertIndex].coins = coinValue; // 上書き
-            } else {
-                coinHistory.splice(insertIndex, 0, { date: selectedDay, coins: coinValue }); // 新しいデータを追加
-            }
-        
-
-            // localStorageに保存
-            localStorage.setItem('coinHistory', JSON.stringify(coinHistory));
-    
-            // グラフを更新
-            updateChart();
-        }
+      const insertIndex = binarySearchInsertIndex();
+      if (coinHistory.findIndex(entry => entry.date === selectedDay) !== -1) {
+        coinHistory[insertIndex].coins = coinValue; // 上書き
+      } else {
+        coinHistory.splice(insertIndex, 0, { date: selectedDay, coins: coinValue }); // 新しいデータを追加
+      }
+  
+      // Firestoreにデータを保存
+      try {
+        const docRef = doc(db, "users", currentUser.uid);
+        await setDoc(docRef, { coinHistory: coinHistory }, { merge: true });
+      } catch (error) {
+        console.error("保存エラー:", error);
+      }
+  
+      // localStorageに保存
+      //localStorage.setItem('coinHistory', JSON.stringify(coinHistory));
+  
+      // グラフを更新
+      updateChart();
     }
-}
+  }
 
 document.getElementById('dateInput').addEventListener('change', function(event) {
     const inputDate = new Date(event.target.value);
@@ -312,12 +380,13 @@ saveButton.addEventListener('click', saveCoinData);
 function kanmaChange(inputAns){
     let inputAnsValue = inputAns.value;
     let numberAns = inputAnsValue.replace(/[^0-9]/g, "");
-    kanmaAns = numberAns.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+    let kanmaAns = numberAns.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
     if(kanmaAns.match(/[^0-9]/g)){
      inputAns.value= kanmaAns;
      return true;
     }
 };
+window.kanmaChange = kanmaChange;
 
 function parseNumber(str) {
     // カンマを取り除いてから数値型に変換

@@ -41,25 +41,39 @@ onAuthStateChanged(auth, user => {
 // チャットの読み取り（誰でも可能）
 const chatQuery = query(collection(db, "chat"), orderBy("timestamp"));
 onSnapshot(chatQuery, snapshot => {
+  const chatContent = document.getElementById("chatContent");
+
   snapshot.docChanges().forEach(change => {
-    if (change.type === "added") {
-      const data = change.doc.data();
-      const msgEl = document.createElement("div");
+    const doc = change.doc;
+    const data = doc.data();
+
+    // IDで既に表示されている要素があれば更新、なければ作成
+    let msgEl = document.getElementById(`msg-${doc.id}`);
+    const ts = data.timestamp?.toDate?.();
+    const time = ts ? ts.toLocaleString() : "送信中...";
+    const uid = data.uid || "不明";
+    const name = data.name || "名無し";
+
+    if (!msgEl) {
+      // 新規作成
+      msgEl = document.createElement("div");
+      msgEl.id = `msg-${doc.id}`;
       msgEl.className = "chat-message";
-
-      const time = data.timestamp?.toDate?.().toLocaleString() || "時刻不明";
-      const uid = data.uid || "不明";
-
-      msgEl.innerHTML = `
-        <div><strong>${data.name || "名無し"}</strong> (${uid}) ${time}</div>
-        <div>${data.message}</div>
-      `;
-
       chatContent.appendChild(msgEl);
+    }
+
+    msgEl.innerHTML = `
+      <div><strong>${name}</strong> (${uid}) ${time}</div>
+      <div>${data.message}</div>
+    `;
+
+    // スクロール追従（新規追加時のみ）
+    if (change.type === "added") {
       chatContent.scrollTop = chatContent.scrollHeight;
     }
   });
 });
+
 // メッセージ送信処理
 document.getElementById("sendMessage").addEventListener("click", () => {
   const input = document.getElementById("messageInput");
@@ -70,6 +84,7 @@ document.getElementById("sendMessage").addEventListener("click", () => {
     showLoginPrompt();
     return;
   }
+  input.value = "";
 
   const { uid, displayName } = currentUser;
   addDoc(collection(db, "chat"), {
@@ -77,8 +92,6 @@ document.getElementById("sendMessage").addEventListener("click", () => {
     uid,
     name: displayName || "名無し",
     timestamp: serverTimestamp()
-  }).then(() => {
-    input.value = "";
   }).catch(err => {
     console.error("送信エラー:", err);
   });
