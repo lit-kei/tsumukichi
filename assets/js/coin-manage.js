@@ -217,7 +217,7 @@ function interpolateData(data) {
 // グラフのデータを更新する関数
 function updateChart() {
     interpolatedCoinHistory = interpolateData(coinHistory);
-    if (failure) {
+    if (failure && interpolatedCoinHistory.length >= 1 && interpolatedCoinHistory[0] != undefined) {
         failure = false;
         chartConfig = {
             type: 'line',
@@ -290,7 +290,7 @@ function updateChart() {
         };
         coinChart = new Chart(coinChartCanvas, chartConfig);
     }
-    if (interpolatedCoinHistory.length >= 1) {
+    if (interpolatedCoinHistory.length >= 1 && interpolatedCoinHistory[0] != undefined) {
         const labels = interpolatedCoinHistory.map(entry => entry.date);
         const data = interpolatedCoinHistory.map(entry => entry.coins);
 
