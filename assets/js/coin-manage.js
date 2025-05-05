@@ -299,6 +299,8 @@ function updateChart() {
         coinChart.data.datasets[0].backgroundColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // isInterpolatedがtrueならオレンジ色
         coinChart.data.datasets[0].borderColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // 同様に枠線の色も設定
         coinChart.update();
+    } else {
+        alert("コイン数を入力してください。")
     }
 }
 
@@ -358,6 +360,7 @@ async function saveCoinData() {
         await setDoc(docRef, { coinHistory: coinHistory }, { merge: true });
       } catch (error) {
         console.error("保存エラー:", error);
+        alert("Googleアカウントでログインしてください。");
       }
   
       // localStorageに保存
@@ -401,7 +404,7 @@ function parseNumber(str) {
     }
   }
 
-document.getElementById('deleteButton').addEventListener('click', function() {
+document.getElementById('deleteButton').addEventListener('click', async function() {
     if (selectedDay.includes('NaN')) {
         alert("日付が正しく選択されていません。");
     } else {
@@ -410,8 +413,12 @@ document.getElementById('deleteButton').addEventListener('click', function() {
             const deleteIndex = coinHistory.findIndex(entry => entry.date === selectedDay);
             if (deleteIndex != -1) {
                 coinHistory.splice(deleteIndex, 1);
-                localStorage.setItem('coinHistory', JSON.stringify(coinHistory));
-                
+                try {
+                    const docRef = doc(db, "users", currentUser.uid);
+                    await setDoc(docRef, { coinHistory: coinHistory }, { merge: true });
+                  } catch (error) {
+                    console.error("保存エラー:", error);
+                  }
                 alert("削除に成功しました。");
                 coinInput.value = null;
                 
