@@ -43,7 +43,13 @@ onAuthStateChanged(auth, async (user) => {
             const docSnap = await getDoc(doc(db, "users", user.uid));
             if (docSnap.exists()) {
                 coinHistory = docSnap.data().coinHistory;
-                console.log("data:", coinHistory);
+                if (coinHistory.length >= 1) {
+                    const newData = coinHistory[coinHistory.length-1];
+                    if (newData.date == new Date().toLocaleDateString()) {
+                        coinInput.value = newData.coins;
+                        kanmaChange(coinInput);
+                    }
+                }
                 updateChart(); // データ取得後にグラフを更新
             } else {
                 coinHistory = [];
@@ -87,11 +93,6 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('dateInput').value = formattedDate;
 
     try{
-        const newData = coinHistory[coinHistory.length-1];
-        if (newData.date == new Date().toLocaleDateString()) {
-            coinInput.value = newData.coins;
-            kanmaChange(coinInput);
-        }
         chartConfig = {
             type: 'line',
             data: {
@@ -372,6 +373,7 @@ document.getElementById('dateInput').addEventListener('change', function(event) 
     const match = coinHistory.find(item => item.date === selectedDay);
 
     coinInput.value = match ? match.coins : null;
+    kanmaChange(coinInput);
   });
 
 // 保存ボタンのクリックイベント

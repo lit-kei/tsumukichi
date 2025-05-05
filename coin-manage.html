@@ -19,7 +19,7 @@
         <div class="form-container">
             <input type="date" id="dateInput" required>
             <label for="coinInput">のコイン数:</label>
-            <input type="text" onblur="kanmaChange(this);" pattern="\d*" placeholder="コイン数を入力" id="coinInput">
+            <input type="text" onblur="kanmaChange(this);" pattern="\d*" placeholder="コイン数を入力" id="coinInput" autocomplete="off">
             <div class="buttons">
                 <button id="saveButton">保存</button>
                 <button id="deleteButton">削除</button>
