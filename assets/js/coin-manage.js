@@ -290,14 +290,16 @@ function updateChart() {
         };
         coinChart = new Chart(coinChartCanvas, chartConfig);
     }
-    const labels = interpolatedCoinHistory.map(entry => entry.date);
-    const data = interpolatedCoinHistory.map(entry => entry.coins);
+    if (interpolatedCoinHistory.length >= 1) {
+        const labels = interpolatedCoinHistory.map(entry => entry.date);
+        const data = interpolatedCoinHistory.map(entry => entry.coins);
 
-    coinChart.data.labels = labels;
-    coinChart.data.datasets[0].data = data;
-    coinChart.data.datasets[0].backgroundColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // isInterpolatedがtrueならオレンジ色
-    coinChart.data.datasets[0].borderColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // 同様に枠線の色も設定
-    coinChart.update();
+        coinChart.data.labels = labels;
+        coinChart.data.datasets[0].data = data;
+        coinChart.data.datasets[0].backgroundColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // isInterpolatedがtrueならオレンジ色
+        coinChart.data.datasets[0].borderColor = interpolatedCoinHistory.map(item => item.isInterpolated ? 'orange' : '#007BFF'), // 同様に枠線の色も設定
+        coinChart.update();
+    }
 }
 
 function compareDates(dateStr1, dateStr2) {
