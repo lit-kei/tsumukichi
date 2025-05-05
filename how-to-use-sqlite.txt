@@ -1,0 +1,9 @@
+Process
+1. sqlite3
+2. .open ~~.db
+
+テーブルの作成 CREATE TABLE ~~~ ( id INTEGER PRIMARY KEY, name TEXT NOT NULL);
+データの挿入 INSERT INTO {table.name} (table.column) VALUES (value);
+データの選択 SELECT ~~~;
+
+途中でコマンドをキャンセルしたくなったら、Ctrl + C
