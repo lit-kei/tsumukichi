@@ -5,5 +5,9 @@ Process
 テーブルの作成 CREATE TABLE ~~~ ( id INTEGER PRIMARY KEY, name TEXT NOT NULL);
 データの挿入 INSERT INTO {table.name} (table.column) VALUES (value);
 データの選択 SELECT ~~~;
+データの削除 DELETE FROM {table.name};
+テーブルの削除 DROP TABLE {table.name}; -> VACUUM;
+
+UPDATE tsumus SET to2 = NULL WHERE to2 = '';
 
 途中でコマンドをキャンセルしたくなったら、Ctrl + C
