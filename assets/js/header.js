@@ -34,7 +34,8 @@ const provider = new GoogleAuthProvider();
 const links = [
   { href: "index.html", title: "トップ" },
   { href: "coin-manage.html", title: "コイン管理システム" },
-  { href: "community.html", title: "コミュニティ" }
+  { href: "community.html", title: "コミュニティ" },
+  { href: "gacha-top.html", title: "ガチャシミュレーター"}
 ];
 
 window.onload = function () {
