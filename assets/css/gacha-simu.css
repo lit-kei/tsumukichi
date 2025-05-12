@@ -1,0 +1,11 @@
+body {
+    position: relative;
+}
+.toTop {
+    position: absolute;
+    cursor: pointer;
+    text-decoration: none; 
+}
+.toTop:hover {
+    text-decoration: underline; 
+}

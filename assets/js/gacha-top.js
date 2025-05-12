@@ -98,10 +98,18 @@ async function initDatabase() {
 }
 
 // 任意のクエリを実行する
-async function runQuery(sql) {
+async function runQuery(sql, params = []) {
   const db = await initDatabase();
-  const result = db.exec(sql);
-  return result[0]?.values || [];
+  const stmt = db.prepare(sql);
+  stmt.bind(params);
+
+  const result = [];
+  while (stmt.step()) {
+    result.push(stmt.get());
+  }
+
+  stmt.free();
+  return result;
 }
 
 setInterval(() => {
@@ -199,7 +207,12 @@ function createContainer(docSnap, id) {
   container.addEventListener('click', () => window.location.href = `gacha-simu.html?kind=user&id=${id}`);
   const title = document.createElement('h2');
   title.classList.add('title');
-  title.innerText = docSnap.title;
+  if (docSnap.title.length > 14) {
+    title.innerText = docSnap.title.slice(0, 14);
+    title.classList.add('long');
+  } else {
+    title.innerText = docSnap.title;
+  }
   container.appendChild(title);
   const table = document.createElement('table');
   table.classList.add('contents');
@@ -214,11 +227,16 @@ function createContainer(docSnap, id) {
   container.appendChild(identifier);
 
   main.appendChild(container);
+
+  if (title.scrollHeight > title.clientHeight) {
+    resizeFontToFit(`#${id} .title`);
+  }
+  
   insertRows(docSnap.contents, id);
 }
 
-function resizeFontToFit() {
-  const cells = document.querySelectorAll('td');
+function resizeFontToFit(selector = 'td') {
+  const cells = document.querySelectorAll(selector);
   cells.forEach(cell => {
     const maxWidth = cell.clientWidth; // td の幅
     let fontSize = 16; // 初期フォントサイズ
@@ -273,8 +291,8 @@ input.addEventListener('input', async () => {
       .filter(box => box.title.toLowerCase().includes(value.toLowerCase()))
       .map(box => box.id);
     // ツム名から検索
-    const query = `SELECT * FROM tsumus WHERE name LIKE '%${value}%';`;
-    const tsumu = (await runQuery(query)).map(tsumu => tsumu[0]);
+    const query = `SELECT * FROM tsumus WHERE name LIKE ?;`;
+    const tsumu = (await runQuery(query, [`%${value}%`])).map(tsumu => tsumu[0]);
     const tsumuHit = [...new Set(
       userBoxes
         .filter(box => tsumu.some(id => box.contents.includes(id)))
@@ -287,5 +305,14 @@ input.addEventListener('input', async () => {
   }
 });
 
+function makeGacha() {
+  if (currentUser) {
+    window.location.href = 'gacha-make.html';
+  } else {
+    const modal = document.getElementById("loginModal");
+    modal.style.display = "flex";
+  }
+}
 
-window.addEventListener('resize', resizeFontToFit); // ウィンドウサイズ変更にも対応
+window.makeGacha = makeGacha;
+window.addEventListener('resize', resizeFontToFit()); // ウィンドウサイズ変更にも対応
