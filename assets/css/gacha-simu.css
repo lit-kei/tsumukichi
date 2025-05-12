@@ -2,10 +2,60 @@ body {
     position: relative;
 }
 .toTop {
-    position: absolute;
+    margin: 20px;
+    z-index: 1;
     cursor: pointer;
     text-decoration: none; 
+    position: absolute;
 }
 .toTop:hover {
     text-decoration: underline; 
+}
+.title {
+    font-size: 25px;
+    margin: 20px 10px;
+    width: 100%;
+  min-width: 0; /* これが重要 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+main {
+  position: relative;
+  display: flex;
+  justify-content: center; /* 横中央 */
+  align-items: flex-start; /* 上から開始 */
+}
+.container {
+    background-color: #fff;
+    padding: 5px;
+    width: 30%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+}
+.main {
+    margin-top: 20px;
+}
+.image-container {
+    position: relative;
+    width: 100%; /* 画像の横幅 */
+    height: 300px; /* 画像の縦幅 */
+    overflow: hidden;
+}
+    
+.gacha-image {
+    max-height: 300px; 
+    max-width: 225px;
+    transition: all 0.2s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .main {
+        margin-top: 80px;
+    }
+    .container {
+        width: 80%;
+    }
 }

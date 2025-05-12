@@ -28,3 +28,25 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+const gacha = {
+  close: 0,
+  open: 1
+};
+let mode = gacha.close;
+const image = document.getElementById('gacha-image');
+
+    // アニメーションを実行する関数
+function animateImage() {
+   image.style.transform = 'scaleY(0.9)'; // 画像を縦に押しつぶす
+ setTimeout(() => {
+   image.style.transform = 'scaleY(1.1)'; // 反発するように拡大
+ }, 200); // 0.2秒後に反発
+ setTimeout(() => {
+   image.style.transform = 'scaleY(1)'; // 元のサイズに戻す
+ }, 400); // 0.4秒後に元に戻す
+}
+animateImage();
+setInterval(() => {
+  if (mode == gacha.close) animateImage();
+}, 1000);

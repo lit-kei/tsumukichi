@@ -120,52 +120,53 @@ setInterval(() => {
 
 
 
-// 3つのPromiseを同時に待つ
-Promise.all([selectBoxPromise, pickupPromise, runQuery("SELECT * FROM tsumus ORDER BY id ASC;")])
- .then(([selectDocSnap, pickupDocSnap, tsumusData]) => {
+runQuery("SELECT * FROM tsumus ORDER BY id ASC;").then(tsumusData => {
    tsumus = tsumusData;
    // --- select-box処理 ---
-   if (selectDocSnap.exists()) {
-     selectBox.div.style.display = 'block';
-     selectBox.display = selectDocSnap.data().display;
-     if (selectDocSnap.data().display) {
-       selectBox.limit = selectDocSnap.data().limit.toDate();
-       selectBox.div.getElementsByClassName('NA')[0].style.display = 'none';
-       selectBox.contents = selectDocSnap.data().contents;
-       selectBox.div.style.cursor = 'pointer';
-       selectBox.div.addEventListener('click', () => window.location.href = "gacha-simu.html?kind=select");
-       selectBox.set();
-       insertRows(selectBox.contents, 'select-box');
-     } else {
-       selectBox.div.getElementsByClassName('NA')[0].style.display = 'block';
-       selectBox.contents = [];
-       selectBox.div.style.cursor = 'default';
-     }
-   } else {
-     console.error("select-boxドキュメントが存在しません");
-   }
+   selectBoxPromise.then(selectDocSnap => {
+    if (selectDocSnap.exists()) {
+      selectBox.div.style.display = 'block';
+      selectBox.display = selectDocSnap.data().display;
+      if (selectDocSnap.data().display) {
+        selectBox.limit = selectDocSnap.data().limit.toDate();
+        selectBox.div.getElementsByClassName('NA')[0].style.display = 'none';
+        selectBox.contents = selectDocSnap.data().contents;
+        selectBox.div.style.cursor = 'pointer';
+        selectBox.div.addEventListener('click', () => window.location.href = "gacha-simu.html?kind=select");
+        selectBox.set();
+        insertRows(selectBox.contents, 'select-box');
+      } else {
+        selectBox.div.getElementsByClassName('NA')[0].style.display = 'block';
+        selectBox.contents = [];
+        selectBox.div.style.cursor = 'default';
+      }
+    } else {
+      console.error("select-boxドキュメントが存在しません");
+    }
+  });
    // --- pickup処理 ---
-   if (pickupDocSnap.exists()) {
-     pickup.div.style.display = 'block';
-     pickup.display = pickupDocSnap.data().display;
-     if (pickupDocSnap.data().display) {
-       pickup.limit = selectDocSnap.data().limit.toDate();
-       pickup.div.getElementsByClassName('NA')[0].style.display = 'none';
-       pickup.contents = pickupDocSnap.data().contents;
-       pickup.div.style.cursor = 'pointer';
-       console.log(pickupContents.map(id => tsumus[id - 1][1]));
-       pickup.div.addEventListener('click', () => window.location.href = "gacha-simu.html?kind=pickup");
-       pickup.set();
-       insertRows(selectContents, 'pickup');
-     } else {
-       pickup.div.getElementsByClassName('NA')[0].style.display = 'block';
-       pickup.contents = [];
-       pickup.div.style.cursor = 'default';
-     }
-   } else {
-     console.error("pickupドキュメントが存在しません");
-   }
-
+   pickupPromise.then(pickupDocSnap => {
+    if (pickupDocSnap.exists()) {
+      pickup.div.style.display = 'block';
+      pickup.display = pickupDocSnap.data().display;
+      if (pickupDocSnap.data().display) {
+        pickup.limit = pickupDocSnap.data().limit.toDate();
+        pickup.div.getElementsByClassName('NA')[0].style.display = 'none';
+        pickup.contents = pickupDocSnap.data().contents;
+        pickup.div.style.cursor = 'pointer';
+        console.log(pickupContents.map(id => tsumus[id - 1][1]));
+        pickup.div.addEventListener('click', () => window.location.href = "gacha-simu.html?kind=pickup");
+        pickup.set();
+        insertRows(selectContents, 'pickup');
+      } else {
+        pickup.div.getElementsByClassName('NA')[0].style.display = 'block';
+        pickup.contents = [];
+        pickup.div.style.cursor = 'default';
+      }
+    } else {
+      console.error("pickupドキュメントが存在しません");
+    }
+  });
 
    const parentDocRef = doc(db, "gacha", "user-box");
    const subColRef = collection(parentDocRef, "user-box");
