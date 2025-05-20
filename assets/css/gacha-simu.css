@@ -2,7 +2,7 @@ body {
     position: relative;
 }
 .toTop {
-    margin: 20px;
+    margin: 40px 25px;
     z-index: 1;
     cursor: pointer;
     text-decoration: none; 
@@ -12,24 +12,34 @@ body {
     text-decoration: underline; 
 }
 .title {
-    font-size: 25px;
-    margin: 20px 10px;
-    width: 100%;
+  font-size: 25px;
+  margin: 20px 10px;
+  width: 94%;
   min-width: 0; /* これが重要 */
+  background-color: white;
   white-space: nowrap;
   overflow: hidden;
+  cursor: default;
   text-overflow: ellipsis;
+}
+.title:hover {
+    overflow: visible;
+    white-space: normal;
+    background-color: white;
+    z-index: 2; /* 必要に応じて */
+    position: relative; /* 他要素の上に出すため */
 }
 main {
   position: relative;
   display: flex;
-  justify-content: center; /* 横中央 */
-  align-items: flex-start; /* 上から開始 */
+  flex-direction: column;        /* 縦方向 */
+  justify-content: center;       /* 縦方向の中央ぞろえ */
+  align-items: center;           /* 横方向の中央ぞろえ */
+  gap: 30px;
 }
 .container {
     background-color: #fff;
     padding: 5px;
-    width: 30%;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -37,6 +47,10 @@ main {
 }
 .main {
     margin-top: 20px;
+    width: 35%;
+}
+.lineup {
+    width: 80%;
 }
 .image-container {
     position: relative;
@@ -49,6 +63,18 @@ main {
     max-height: 300px; 
     max-width: 225px;
     transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+.gacha-button {
+    background-color: #3498DB;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    height: 60px;
+    width: 50%;
+    font-size: large;
+    cursor: pointer;
+    margin-bottom: 30px;
 }
 
 @media (max-width: 768px) {
@@ -57,5 +83,8 @@ main {
     }
     .container {
         width: 80%;
+    }
+    .toTop {
+        margin-top: 20px;
     }
 }

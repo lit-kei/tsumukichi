@@ -47,9 +47,7 @@ window.onload = function () {
   // 左側：ロゴとタイトル
   inner.innerHTML = `
     <div class="header-left">
-      <a href="index.html">
-        <img src="assets/images/logo.png" class="logo-img" alt="つむ基地！のロゴ">
-      </a>
+      <img src="assets/images/logo.png" class="logo-img" alt="つむ基地！のロゴ" onclick="window.location.href = 'index.html'">
       <h1 class="header-title">${title}</h1>
     </div>
   `.trim();
@@ -65,12 +63,11 @@ window.onload = function () {
   });
   inner.appendChild(nav);
 
-  header.appendChild(inner);
 
   // 右上ログイン情報表示
   const right = document.createElement('div');
   right.classList.add("header-right");
-  document.body.appendChild(right);
+  inner.appendChild(right);
 
   onAuthStateChanged(auth, (user) => {
     right.innerHTML = "";
@@ -131,4 +128,5 @@ window.onload = function () {
       right.appendChild(btn);
     }
   });
+  header.appendChild(inner);
 };

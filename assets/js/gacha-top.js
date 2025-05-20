@@ -208,12 +208,7 @@ function createContainer(docSnap, id) {
   container.addEventListener('click', () => window.location.href = `gacha-simu.html?kind=user&id=${id}`);
   const title = document.createElement('h2');
   title.classList.add('title');
-  if (docSnap.title.length > 14) {
-    title.innerText = docSnap.title.slice(0, 14);
-    title.classList.add('long');
-  } else {
-    title.innerText = docSnap.title;
-  }
+  title.innerText = docSnap.title;
   container.appendChild(title);
   const table = document.createElement('table');
   table.classList.add('contents');

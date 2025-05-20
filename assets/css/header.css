@@ -6,7 +6,7 @@ body {
 }
 
 .full-header {
-    width: 100%;
+    max-width: 100%;
     background-color: #3498DB;
     color: white;
     padding: 15px 20px;
@@ -60,10 +60,10 @@ body {
 
 /* 🔸 画面右上に固定 */
 .header-right {
-    position: fixed;
+    position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 1100;
+    z-index: 1;
 }
 
 /* 🔸 ユーザーアイコン */
@@ -128,9 +128,20 @@ body {
 
     .header-nav {
         flex-wrap: wrap;
+        width: 90%;
+        margin: 0;
     }
 
     .header-nav a {
         margin: 5px 15px 0 0;
+    }
+
+    .header-title {
+        font-size: 20px;
+    }
+
+    .header-right {
+        top: 90px;
+        right: 20px;
     }
 }
