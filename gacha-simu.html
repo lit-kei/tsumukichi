@@ -22,14 +22,35 @@
     <h2 onclick="window.location.href = 'gacha-top.html'" class="toTop">&lt;ガチャ選択画面へ戻る</h2>
     <main>
         <div class="container main">
-            <h1 class="title">selectaaaaaaaaaaaaaaaaaaaaaaaaaaa</h1>
+            <h1 class="title" id="title">Loading...</h1>
             <div class="image-container">
                 <img src="assets/images/gacha-box.png" alt="ボックスの画像" class="gacha-image" id="gacha-image">
             </div>
             <button class="gacha-button"><strong>ガチャる！</strong></button>
         </div>
         <div class="container lineup">
-            <h2>このボックスのラインナップ</h2>
+            <h2 class="navi">このボックスのラインナップ</h2>
+            <table>
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr class="head">
+                        <th>id</th>
+                        <th>ツム名</th>
+                        <th>スキルレベル</th>
+                        <th>現在のツム数</th>
+                        <th>スキルマ必要個体数</th>
+                        <th>出現確率</th>
+                    </tr>
+                </thead>
+                <tbody class="contents" id="lineup"></tbody>
+            </table>
         </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>

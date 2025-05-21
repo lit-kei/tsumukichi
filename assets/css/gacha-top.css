@@ -62,7 +62,7 @@ input {
 }
 .container:not(.fixed) .title:hover ~ *,
 .container:not(.fixed) .title:hover ~ table.contents td {
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.5);
 }
 #select-box {
     display: none;

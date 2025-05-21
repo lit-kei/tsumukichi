@@ -2,8 +2,9 @@ body {
     position: relative;
 }
 .toTop {
-    margin: 40px 25px;
+    margin: 30px 25px;
     z-index: 1;
+    
     cursor: pointer;
     text-decoration: none; 
     position: absolute;
@@ -24,7 +25,7 @@ body {
 }
 .title:hover {
     overflow: visible;
-    white-space: normal;
+    white-space: nowrap;
     background-color: white;
     z-index: 2; /* 必要に応じて */
     position: relative; /* 他要素の上に出すため */
@@ -50,7 +51,13 @@ main {
     width: 35%;
 }
 .lineup {
-    width: 80%;
+    width: 90%;
+    text-align: center;
+    padding: 20px;
+}
+.lineup h2 {
+    margin: 0;
+    font-size: 19px;
 }
 .image-container {
     position: relative;
@@ -60,8 +67,9 @@ main {
 }
     
 .gacha-image {
+    margin-top: 10px;
     max-height: 300px; 
-    max-width: 225px;
+    max-width: 300px;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
 }
@@ -76,10 +84,38 @@ main {
     cursor: pointer;
     margin-bottom: 30px;
 }
-
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+tr:nth-child(even) {
+    background-color: #fefefe;
+}
+tr:nth-child(odd) {
+    background-color: #f0f0ff;
+}
+col:nth-child(1) { width: 5%; }
+col:nth-child(2) { width: 48%; }
+col:nth-child(3) { width: 12%; }
+col:nth-child(4) { width: 15%; }
+col:nth-child(5) { width: 15%; }
+col:nth-child(6) { width: 10%; }
+.skill-max {
+    color: #ff0000;
+}
+.P {
+    transition: color 0.3s ease;
+}
 @media (max-width: 768px) {
-    .main {
-        margin-top: 80px;
+    body *:not(header *) {
+        position: relative !important;
     }
     .container {
         width: 80%;
@@ -87,4 +123,27 @@ main {
     .toTop {
         margin-top: 20px;
     }
+}
+
+select {
+  appearance: none; /* デフォルトの矢印を非表示 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f8f9fa;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 40px 5px 15px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
 }

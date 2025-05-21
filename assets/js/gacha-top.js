@@ -82,6 +82,7 @@ const pickupPromise = getDoc(doc(db, "gacha", "pickup"));
 let dbInstance = null; // 一度作ったdbを保持
 
 
+
 // SQLiteデータベースからtsumus取得
 const tsumuPromise = initSqlJs({
   locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/${file}`
