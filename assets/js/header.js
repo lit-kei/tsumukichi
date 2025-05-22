@@ -47,7 +47,7 @@ window.onload = function () {
   // 左側：ロゴとタイトル
   inner.innerHTML = `
     <div class="header-left">
-      <img src="assets/images/logo.png" class="logo-img" alt="つむ基地！のロゴ" onclick="window.location.href = 'index.html'">
+      <img src="assets/images/logo.png" class="logo-img" alt="つむ基地！のロゴ" onclick="window.location.href = 'index.html'" style="cursor: pointer;">
       <h1 class="header-title">${title}</h1>
     </div>
   `.trim();

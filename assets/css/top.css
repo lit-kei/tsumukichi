@@ -127,4 +127,20 @@ ul {
     #advise {
         visibility: visible;
     }
+    .two-column {
+        display: block;
+    }
+    .main {
+        margin-top: 60px;
+    }
+    .left {
+        border: none;
+        border-bottom: 2px dashed black;
+    }
+    .left,
+    .right,
+    .left-containers,
+    .right-containers {
+        width: 100%;
+    }
 }

@@ -69,14 +69,25 @@ const boxes = {
 let mode = gacha.close;
 const image = document.getElementById('gacha-image');
 const tbody = document.getElementById('lineup');
+const button = document.getElementById('gacha-button');
+const resultLabel = document.getElementById('result-label');
 
-const setMode = num => mode = num; 
-
+let allow = true; 
+let old = false;
+let currentText = '';
+let nextText = '';
 // アニメーションを実行する関数
 function animateImage() {
-  console.log(mode);
   switch (mode) {
     case gacha.close:
+      allow = true;
+      resultLabel.style.display = 'none';
+      image.style.display = '';
+      //image.style.transition = 'none';
+      image.style.opacity = 1;
+      image.style.filter = 'brightness(1)';
+      //image.offsetHeight;
+      //image.style.transition = '';
       image.style.transform = 'scaleY(0.9)'; // 画像を縦に押しつぶす
       setTimeout(() => {
         image.style.transform = 'scaleY(1.1)'; // 反発するように拡大
@@ -86,9 +97,36 @@ function animateImage() {
       }, 400); // 0.4秒後に元に戻す
       break;
     case gacha.opening:
-      image.style.filter = 'brightness(10)';
+      image.style.opacity = 0;
+      image.style.filter = 'brightness(5)';
+      mode = 2;
+      old = false
       break;
     case gacha.open:
+      allow = true;
+      resultLabel.style.display = 'block';
+      const per = document.getElementsByTagName('select')[result];
+      if (!old) {
+        play++;
+        document.getElementById('info').textContent = `回した数：${play}回(${play*3}万コイン)`;
+        currentText = per.options[per.selectedIndex].text;
+        nextText = per.options[per.selectedIndex + 1].text;
+        per.selectedIndex++;
+        old = true;
+        const now = document.getElementsByClassName('now')[result];
+        now.textContent = String(per.selectedIndex);
+        alignment();
+        now.style.color = '#f60';
+        now.style.backgroundColor = '#888';
+        setTimeout(() => {
+          now.style.color = '';
+          now.style.backgroundColor = '';
+        }, 300);
+      }
+      resultLabel.innerHTML = tsumus[boxContents[result]-1][1] + '<br>スキル：' + currentText + "→" + nextText;
+
+      image.style.display = 'none';
+      button.textContent = 'ボックスを再生成する';
       break;
     default:
       break;
@@ -101,6 +139,8 @@ setInterval(() => {
 let tsumus = [];
 let boxContents = [];
 let probabilities = [];
+let result = -1;
+let play = 0;
 
 // 現在のURLのクエリパラメータを取得する場合
 const params = new URLSearchParams(window.location.search);
@@ -146,7 +186,7 @@ function percent(index) {
 }
 function alignment() {
   probabilities = [];
-  const tds = document.querySelectorAll('tr:not(.head)')
+  const tds = document.querySelectorAll('.lineup tr:not(.head)')
   let maxes = [];
   for (let i = 0; i < tds.length; i++) {
     const element = tds[i];
@@ -171,11 +211,53 @@ function alignment() {
       element.textContent = (Math.floor(10000 / (boxContents.length - maxes.length))/100).toFixed(2) + '%';
     }
   }
-  console.log(probabilities);
 }
+
+function openGacha() {
+  if (mode == 0 && allow) {
+    const hoge = Math.random();
+    let random = hoge;
+    for (let i = 0; i < probabilities.length; i++) {
+      const element = probabilities[i];
+      random -= element;
+      result = i;
+      if (random < 0) {
+        break;
+      }
+    }
+    if (random == hoge) {
+      result = -1;
+      if (confirm('完売しました。リセットしますか？')) {
+        play = 0;
+        document.getElementById('info').textContent = `回した数：${play}回(${play*3}万コイン)`;
+
+        [...document.getElementsByTagName('select')].forEach(select => {
+          select.selectedIndex = 0;
+        });
+        [...document.getElementsByClassName('now')].forEach(cell => {
+          cell.textContent = '0';
+        });
+        alignment();
+      }
+      return;
+    }
+    mode = 1;
+    allow = false;
+  } else if (mode == 2 && allow) {
+    button.textContent = 'ガチャる！';
+    allow = false;
+    mode = 0;
+  }
+}
+
+
 runQuery("SELECT * FROM tsumus ORDER BY id ASC;").then(tsumuData => {
   tsumus = tsumuData;
   boxPromise.then(boxData => {
+    image.addEventListener('click', openGacha);
+    image.style.cursor = 'pointer';
+    button.addEventListener('click', openGacha);
+    button.style.cursor = 'pointer';
     if (kind == boxes.user) document.getElementById('title').textContent = boxData.data().title;
     boxContents = boxData.data().contents;
     if (kind != boxes.pickup) {
@@ -206,6 +288,10 @@ runQuery("SELECT * FROM tsumus ORDER BY id ASC;").then(tsumuData => {
         alignment();
         
         select.addEventListener("change", function () {
+          if (currentCell.textContent != String(select.selectedIndex)) {  
+            currentCell.style.color = '#f60';
+            setTimeout(() => currentCell.style.color = '', 300);
+          }
           currentCell.textContent = String(select.selectedIndex);
           alignment();
         });
@@ -213,5 +299,3 @@ runQuery("SELECT * FROM tsumus ORDER BY id ASC;").then(tsumuData => {
     }
   })
 });
-
-window.setMode = setMode;

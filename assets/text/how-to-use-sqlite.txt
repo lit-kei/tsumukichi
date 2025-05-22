@@ -4,6 +4,8 @@ Process
 
 テーブルの作成 CREATE TABLE ~~~ ( id INTEGER PRIMARY KEY, name TEXT NOT NULL);
 データの挿入 INSERT INTO {table.name} (table.column) VALUES (value);
+INSERT INTO tsumus (name, to2, to3, to4, to5, to6, total) VALUES ('スノーク', 1, 2, 4, 8, 16, 32);
+
 データの選択 SELECT ~~~;
 データの削除 DELETE FROM {table.name};
 テーブルの削除 DROP TABLE {table.name}; -> VACUUM;
@@ -11,3 +13,12 @@ Process
 UPDATE tsumus SET to2 = NULL WHERE to2 = '';
 
 途中でコマンドをキャンセルしたくなったら、Ctrl + C
+コマンドの貼り付けはCtrl + Shift + v
+
+
+エクスポート手順
+.mode csv
+.output ./assets/db/tsumu.csv
+SELECT ~~~
+.output stdout
+
