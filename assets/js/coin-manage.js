@@ -26,7 +26,7 @@ const firebaseConfig = {
   appId: "1:862189689025:web:e9af0ef41ae45a13eb5c40",
   measurementId: "G-0XE4K5F37J"
 };
-
+Chart.register(ChartZoom);
 // Firebase初期化
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
@@ -158,6 +158,26 @@ window.addEventListener('DOMContentLoaded', () => {
                                 }
                             }
                         }
+                    },
+                    zoom: {
+                        pan: {
+                            enabled: true,
+                            mode: 'xy',
+                        },
+                        zoom: {
+                            wheel: {
+                            enabled: true,
+                            modifierKey: null
+                            },
+                            pinch: {
+                            enabled: true
+                            },
+                            drag: {
+                            enabled: true
+                            },
+                            mode: 'x',
+                            overScaleMode: undefined
+                        }
                     }
                 }
             }
@@ -283,6 +303,26 @@ function updateChart() {
                                     }
                                 }
                             }
+                        }
+                    },
+                    zoom: {
+                        pan: {
+                            enabled: true,
+                            mode: 'xy',
+                        },
+                        zoom: {
+                            wheel: {
+                            enabled: true,
+                            modifierKey: null
+                            },
+                            pinch: {
+                            enabled: true
+                            },
+                            drag: {
+                            enabled: true
+                            },
+                            mode: 'x',
+                            overScaleMode: undefined
                         }
                     }
                 }

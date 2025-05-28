@@ -1,0 +1,9 @@
+{
+    "sqltools.connections": [
+        {
+            "driver": "SQLite",
+            "name": "TsumuTsumu",
+            "database": "${workspaceFolder:tsumukichi}/assets/db/tsumu.db"
+        }
+    ]
+}
